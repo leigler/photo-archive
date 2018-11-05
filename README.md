@@ -1,7 +1,7 @@
 # photo-archive
 web-to-print booklet of archived iPhone photos, by year
 
-# To Do
+## To Do
 - [ ] Everything
 
 ## Build Resources
