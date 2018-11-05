@@ -1,4 +1,4 @@
-# photo-archive
+# Photo Archive (Tome Generator)
 web-to-print booklet of archived iPhone photos, by year
 
 ## To Do
@@ -8,4 +8,4 @@ web-to-print booklet of archived iPhone photos, by year
 
 - [Preact](https://preactjs.com)
 - [Bindery js](https://evanbrooks.info/bindery/)
-- [Dropbox API](https://www.dropbox.com/developers/reference/content-access-guide)
+- [Dropbox API](https://github.com/dropbox/dropbox-sdk-js)
