@@ -1,0 +1,39 @@
+{
+  "name": "photo-archive",
+  "version": "1.0.0",
+  "description": "web to print book generator for iphone photos",
+  "main": "index.js",
+  "author": "leigler",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leigler/photo-archive/issues"
+  },
+  "homepage": "https://github.com/leigler/photo-archive#readme",
+  "scripts": {
+    "start": "webpack-dev-server --content-base public --port 4444",
+    "build": "webpack"
+  },
+  "dependencies": {
+    "bindery": "^2.2.3",
+    "dropbox": "^4.0.13",
+    "es6-promise": "^4.2.5",
+    "isomorphic-fetch": "^2.2.1",
+    "preact": "^8.3.1",
+    "preact-router": "^2.6.1",
+    "slugify": "^1.3.3",
+    "webpack": "^4.25.1"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-transform-react-jsx": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
+    "babel-loader": "^8.0.4",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leigler/photo-archive.git"
+  }
+}
