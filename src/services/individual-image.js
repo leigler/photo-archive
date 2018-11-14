@@ -4,17 +4,14 @@ var Dropbox = require('dropbox').Dropbox;
 var dbx = new Dropbox({ accessToken: token.token, fetch: fetch });
 
 
-export const getImage = imagePath => dbx.filesGetTemporaryLink({"path": imagePath[0]})
+export const getImage = imagePath => dbx.filesGetTemporaryLink({"path": imagePath.path})
   .then(function(response) {
-  	console.log("response", response)
+  	console.log("response: ", imagePath.imageIndex, response)
 
-  	return [response.link, imagePath[1]]
-
-  	// return {
-  	// 				"link" : response.link, 
-  	// 				"name" : response.metadata.name,
-  	// 				"modified" : response.metadata.client_modified 
-  	// 			}
+  	return {
+      "temp": response.link, 
+      "imageIndex" : imagePath.imageIndex
+    }
 
   })
   .catch(function(error) {

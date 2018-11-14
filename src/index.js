@@ -5,7 +5,7 @@ import Application from 'Root/components/Application';
 import { getContents } from 'Root/services/datalayer'; // services directory is anything that isnt UI
 
 //const results = getContents(); //gets notices from json
-const results = [];
+const results = []; // start out empty
 	
 	//console.log(results)
 

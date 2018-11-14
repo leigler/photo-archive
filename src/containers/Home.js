@@ -5,83 +5,91 @@ import { Link } from 'preact-router';
 import List from 'Root/components/List';
 import { getContents } from 'Root/services/datalayer'; // services directory is anything that isnt UI
 import { getImage } from 'Root/services/individual-image'; // services directory is anything that isnt UI
-
-
+import { sortChrono } from 'Root/services/chronological-sorting'; // services directory is anything that isnt UI
 
 export default class Home extends Component {
 
-	// helpful for passing properties to route
 	constructor(props){
 		console.log("constructor")
 		super(props);
 
 		this.state = {
-			items: [{"name" : "loading"}]
+			items: [
+							{
+								"name" : "loading",
+								"date" : {
+										"general" : "",
+										"integer" : "",
+										"year" : "year",
+										"month" : "month",
+										"day" : "day",
+										"time" : "time"
+									}
+							}
+						 ]
 		}		
 		console.log("constructor, after empty state.items")
-	}
+	};
 
-
-	componentWillMount(){
-
+	componentWillMount(props){
 		console.log("componentWillMount")
-		
 		getContents()
-		.then(items => this.setState({ items }));
-		
+		.then(function(items){ 
+			console.log("first .then, items: ", items.entries);
+			return items.entries;
+		})
+		.then(function(items){
+			// order photos chronologically (still feels buggy)
+			return sortChrono(items)
+		})
+		.then(function(items){
+			console.log("second .then, items: ", items);
+			let updatedItems = []
+			items.forEach((item, index, array) => {
+
+					updatedItems.push(new Promise((resolve, reject) => {
+						console.log(index)
+						getImage({"path": item.path_lower, "imageIndex": index})
+						.then((thisItem) => {
+							console.log(thisItem)
+							// update array of items
+							items[thisItem.imageIndex].link = thisItem.temp;
+							items[thisItem.imageIndex].imageIndex = thisItem.imageIndex;
+
+							resolve(items[thisItem.imageIndex])
+						})
+					}))
+				})
+			return Promise.all(updatedItems)
+		})
+		.then(items => this.setState({items}))
 		console.log("componentWillMount, end")
 	}
 
-	componentDidMount(){
-		console.log("componentDidMount", this.items.length)
-
-
-		for (var i = 0; i < this.items.length; i++) {
-			console.log(this.items[i].path_lower)
-			getImage([this.items[i].path_lower, i])
-			.then(function(results){
-
-				console.log("componentDidMount results: ", results)
-
-				items[results[1]].link = results[0];
-				items => this.setState({ items });
-			})
-			
-			//.then(function(result){
-				//items => this.setState({ link : result})
-			//});
-		}
-
-		//console.log("we got this far: ", result)
-	}
-
 	renderItem(item){
-		// here you would format the item that is placed into the List
-		//var slug = slugify(item.title, {replacement: "_", lower: true})
-
-		if(item.link){
-			return (
-				<div>
-					<h1>{item.name}</h1>
-					<img src={item.link} />
-					<hr /><br />
-				</div>
-			);
-		}else{
-			return (
-				<div>
-					<h1>{item.name}</h1>
-					<hr /><br />
-				</div>
-			);
+		var link = "";
+		if(item.link){ 
+			link = item.link 
+			console.log("rendered Item w/ updated link: ", item)
 		}
+			return (
+				<div>
+					<h1>{ item.name }</h1>
+					<h2>{ item.date.month }/{ item.date.day }/{ item.date.year }</h2>
+					<h2>{ item.date.time }</h2>
+					<h2>{ item.date.general }</h2>
+					<img src={ link } />
+					<hr /><br />
+				</div>
+			);
 	}
 
 	render({}, {items}){
-		console.log("rendering!")
+		console.log("********\nRENDERING!\n********")
 		return (
 
 			<div>Homepage
+				<h1>{items.length}</h1>
 				<List items={items} renderItem={this.renderItem.bind(this)} />
 			</div>
 

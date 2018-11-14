@@ -3,22 +3,25 @@ import token from 'Root/services/token.json';
 var fetch = require('isomorphic-fetch'); // or another library of choice.
 var Dropbox = require('dropbox').Dropbox;
 var dbx = new Dropbox({ accessToken: token.token, fetch: fetch });
-import { getMoreContents } from 'Root/services/pagination'; // services directory is anything that isnt UI
 
-
-export const getContents = text => dbx.filesListFolder({path: '/iphone-photos'})
+export const getMoreContents = submitted => dbx.filesListFolderContinue({cursor: submitted.cursor})
   .then(function(response) {
-    console.log(response.entries);
     
+    var allEntries = submitted.existing_entries;
+    allEntries = allEntries.concat(response.entries);
+
     if(response.has_more){
-      
-      return getMoreContents({
-        "existing_entries" : response.entries,
+      // essentially recursive
+
+      getMoreContents({
+        "existing_entries" : allEntries,
         "cursor" : response.cursor
       })
 
     }else{
-      return { "entries" : response.entries };
+      return {
+        "entries" : allEntries
+      }
     }
   })
   .catch(function(error) {
