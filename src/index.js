@@ -6,6 +6,7 @@ import { getContents } from 'Root/services/datalayer'; // services directory is 
 
 //const results = getContents(); //gets notices from json
 const results = []; // start out empty
+
 	
 	//console.log(results)
 

@@ -45,3 +45,4 @@ module.exports = {
 };
 
 //for a proper build into the public directory use `npx webpack`
+// node: { fs: 'empty' },

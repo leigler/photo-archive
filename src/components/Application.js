@@ -37,7 +37,7 @@ export default class Application extends Component {
 
 /*
 	probably want to be able to put in the year i.e. 
-
+//<Page path='/:year' props={this.props.allPages} />
 	/2016
 	/2017
 	/2018

@@ -1,13 +1,16 @@
 import { h } from 'preact';
 
-export default ({items, renderItem}) => (
+export default ({years, renderItem}) => (
 
-	<ul>
-		{items.map(item => (
-			<li>
-				{renderItem(item)}
-			</li>
-		))}
-	</ul>
+	<div>
+		<h1>{years.year}</h1>
+		<ul>
+			{years.entries.map(item => (
+				<li>
+					{renderItem(item)}
+				</li>
+			))}
+		</ul>
+	</div>
 
 );
